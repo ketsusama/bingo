@@ -2,6 +2,7 @@ package be.ketsu.bingo;
 
 import be.ketsu.bingo.configuration.files.MessageConfiguration;
 import be.ketsu.bingo.configuration.files.SettingsConfiguration;
+import be.ketsu.bingo.game.managers.BingoManager;
 import be.ketsu.bingo.game.managers.InstancesManager;
 import be.ketsu.bingo.gui.InventoryManager;
 import lombok.Getter;
@@ -32,6 +33,8 @@ public class BingoBukkit extends JavaPlugin {
     private InventoryManager inventoryManager;
     @Getter
     private InstancesManager instancesManager;
+    @Getter
+    private BingoManager bingoManager;
 
     @Override
     public void onEnable() {
@@ -45,6 +48,8 @@ public class BingoBukkit extends JavaPlugin {
         // Managers
         executionManager = new ExecutionManager();
         inventoryManager = new InventoryManager(this);
+        instancesManager = new InstancesManager();
+        bingoManager = new BingoManager();
 
         // Init Managers
         executionManager.start();

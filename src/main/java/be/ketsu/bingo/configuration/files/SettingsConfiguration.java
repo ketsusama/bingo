@@ -24,4 +24,10 @@ public class SettingsConfiguration {
     String gameGlobalPermission = "bingo.*";
     Integer lineToComplete = 12;
     List<ItemStack> banItemStack = List.of(new ItemStack(Material.GLASS));
+
+    /*
+    Menu settings
+     */
+    Integer gui_row = 5;
+    Integer gui_column = 5;
 }
