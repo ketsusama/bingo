@@ -1,0 +1,9 @@
+name: Bingo
+version: 0.1
+description: A challenge of the association mineow.
+author: Ketsu_sama
+main: be.ketsu.bingo.BingoBukkit
+api-version: 1.17
+commands:
+  game:
+    description: Managing party proceedings
