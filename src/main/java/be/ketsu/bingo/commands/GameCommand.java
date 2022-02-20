@@ -1,7 +1,9 @@
 package be.ketsu.bingo.commands;
 
 import be.ketsu.bingo.BingoBukkit;
+import be.ketsu.bingo.game.BingoPlayer;
 import be.ketsu.bingo.game.GameInstance;
+import be.ketsu.bingo.game.GameState;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -31,10 +33,23 @@ public class GameCommand implements CommandExecutor {
                 break;
             case "start":
                 // Force the game instance to start
-                BingoBukkit.getInstance().getInstancesManager().getCurrentGameInstance().setReady(true);
-                // Force instance checking start
-                BingoBukkit.getInstance().getInstancesManager().getCurrentGameInstance().getGameManager().checkStart();
+                if (BingoBukkit.getInstance().getInstancesManager().getCurrentGameInstance().getState() == GameState.WAITING) {
+                    BingoBukkit.getInstance().getInstancesManager().getCurrentGameInstance().setReady(true);
+                }
                 break;
+            case "stop":
+                // Get the sender from the game
+                BingoPlayer bingoPlayer = BingoBukkit.getInstance().getInstancesManager().findBingoPlayerInGameInstance(player);
+                // Get the instance from the sender and end the game
+                GameInstance gameInstance = BingoBukkit.getInstance().getInstancesManager().findPlayerGameInstance(bingoPlayer).get();
+                // Temps List players
+                List<BingoPlayer> bingoPlayers = gameInstance.getPlayers();
+                // Send message to the sender
+                player.sendMessage(BingoBukkit.getInstance().getMessages().getCommand().getYouStopTheGame());
+                // Send message to players
+                bingoPlayers.forEach(bingoPlayer1 -> bingoPlayer1.getPlayer().sendMessage(BingoBukkit.getInstance().getMessages().getGame().getGameCancel()));
+                // Stop the game
+                gameInstance.getGameManager().endGame();
             default:
                 return false;
         }
@@ -79,6 +94,8 @@ public class GameCommand implements CommandExecutor {
                 }
 
                 return ret;
+            } else {
+
             }
 
             sender.sendMessage(BingoBukkit.getInstance().getMessages().getPrefix() + BingoBukkit.getInstance().getMessages().getCommand().getMustBePlayer());

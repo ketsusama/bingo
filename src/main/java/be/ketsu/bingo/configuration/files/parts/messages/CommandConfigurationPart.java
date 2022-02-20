@@ -11,8 +11,10 @@ public class CommandConfigurationPart {
     /* Global Command Configuration */
     String mustBePlayer = "%prefix% §cYou must be a player to execute this command";
     String badSyntaxe = "%prefix% §cBad command syntax";
+    String noPermission = "%prefix% §cYou don't have the permission";
 
     /* Game Command Configuration */
     List<String> gameInfoList = Arrays.asList("§a/game start §b: force the launch of the current instance", "§a/game stop <instance> §b: stop the current proceeding");
+    String youStopTheGame = "§cYou stopped the game";
 
 }

@@ -1,16 +1,19 @@
 package be.ketsu.bingo;
 
+import be.ketsu.bingo.commands.BingoCommand;
+import be.ketsu.bingo.commands.GameCommand;
 import be.ketsu.bingo.configuration.files.MessageConfiguration;
 import be.ketsu.bingo.configuration.files.SettingsConfiguration;
 import be.ketsu.bingo.game.managers.BingoManager;
 import be.ketsu.bingo.game.managers.InstancesManager;
 import be.ketsu.bingo.gui.InventoryManager;
+import be.ketsu.bingo.listeners.PlayersListeners;
 import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Logger;
 
-import static be.ketsu.bingo.configuration.Configurations.readOrCreateConfiguration;
+import static be.ketsu.bingo.configuration.Configurations.*;
 
 public class BingoBukkit extends JavaPlugin {
 
@@ -32,9 +35,9 @@ public class BingoBukkit extends JavaPlugin {
     @Getter
     private InventoryManager inventoryManager;
     @Getter
-    private InstancesManager instancesManager;
-    @Getter
     private BingoManager bingoManager;
+    @Getter
+    private InstancesManager instancesManager;
 
     @Override
     public void onEnable() {
@@ -48,17 +51,24 @@ public class BingoBukkit extends JavaPlugin {
         // Managers
         executionManager = new ExecutionManager();
         inventoryManager = new InventoryManager(this);
-        instancesManager = new InstancesManager();
         bingoManager = new BingoManager();
+        instancesManager = new InstancesManager();
 
         // Init Managers
         executionManager.start();
         inventoryManager.init();
+
+        // Register Listeners
+        this.getServer().getPluginManager().registerEvents(new PlayersListeners(), this);
+
+        // Register Commands
+        getCommand("game").setExecutor(new GameCommand());
+        getCommand("bingo").setExecutor(new BingoCommand());
     }
 
     @Override
     public void onDisable() {
         // Cancel all tasks
-        executionManager.shutdown();
+        //executionManager.shutdown();
     }
 }

@@ -20,7 +20,7 @@ public abstract class Phase {
     protected TimeUnit unit;
     protected GameState state;
     protected BukkitRunnable runnable; // Bukkit runnable of the phase
-    private GameInstance gameInstance;
+    protected GameInstance gameInstance;
 
     /**
      * Returns the name of a phase

@@ -1,6 +1,7 @@
 package be.ketsu.bingo.game.managers;
 
 import be.ketsu.bingo.BingoBukkit;
+import be.ketsu.bingo.game.BingoPlayer;
 import be.ketsu.bingo.game.GameInstance;
 import be.ketsu.bingo.game.GameState;
 import be.ketsu.bingo.game.tasks.CheckStartTask;
@@ -9,6 +10,8 @@ import lombok.SneakyThrows;
 import lombok.val;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
+
+import java.util.List;
 
 @Data
 public class GameManager {
@@ -19,6 +22,8 @@ public class GameManager {
 
     public GameManager(GameInstance gameInstance) {
         this.gameInstance = gameInstance;
+        // Launch check start task
+        startGame();
     }
 
     /***
@@ -27,9 +32,7 @@ public class GameManager {
      * - Run the check task
      */
     public void startGame() {
-        // La partie est prête à démarrer
-        gameInstance.setReady(true);
-        BingoBukkit.getInstance().getExecutionManager().getTasks().put(gameInstance.getId() + "-checkstart", new CheckStartTask(gameInstance).runTaskTimer(BingoBukkit.getInstance(), 0L, 20L));
+        BingoBukkit.getInstance().getExecutionManager().getTasks().put(gameInstance.getId() + "-checkstart", new CheckStartTask(gameInstance).runTaskTimer(BingoBukkit.getInstance(), 0L, 20L * 15));
     }
 
 
@@ -39,8 +42,14 @@ public class GameManager {
     @SneakyThrows
     public void checkStart() {
         if (this.shouldStart()) {
+            // Cancel check task
+            BingoBukkit.getInstance().getExecutionManager().cancel(gameInstance.getId() + "-checkstart");
             // Launch the next phase
             this.nextPhase();
+        } else {
+            // Warn players that there are not enough players present
+            BingoBukkit.getInstance().getInstancesManager().getCurrentGameInstance().getPlayers().forEach(bingoPlayer ->
+                bingoPlayer.getPlayer().sendMessage(BingoBukkit.getInstance().getMessages().getGame().getNoEnoughPlayer().replace("%prefix%", BingoBukkit.getInstance().getMessages().getPrefix())));
         }
     }
 
@@ -49,7 +58,7 @@ public class GameManager {
      */
     public boolean shouldStart() {
         return gameInstance.getState() == GameState.WAITING
-            && gameInstance.isReady() || gameInstance.getPlayers().size() <= BingoBukkit.getInstance().getSettings().getPlayersRequiredToStart();
+            && gameInstance.getPlayers().size() >= BingoBukkit.getInstance().getSettings().getPlayersRequiredToStart() || gameInstance.isReady();
     }
 
     /***
@@ -78,6 +87,13 @@ public class GameManager {
         gameInstance.setState(gameInstance.getCurrentPhase().getState());
         // Cut the current phase
         this.cancelPhase();
+        // Temps list players
+        List<BingoPlayer> bingoPlayers = gameInstance.getPlayers();
+        // Delete this game instance
+        BingoBukkit.getInstance().getInstancesManager().getGameInstances().remove(getGameInstance());
+        // Put players to current game
+        bingoPlayers.forEach(bingoPlayer -> BingoBukkit.getInstance().getBingoManager().joinBingo(bingoPlayer.getPlayer()));
+
     }
 
     // PHASE SYSTEM
@@ -109,13 +125,13 @@ public class GameManager {
      */
     @SneakyThrows
     public void nextPhase() {
-        val buildbattle = gameInstance;
+        val gameInstance = this.gameInstance;
         // Get & Poll la prochaine phase
-        buildbattle.setCurrentPhase(buildbattle.getInstancePhases().poll());
-        BingoBukkit.getInstance().getLogger().info("Phase en cours : " + buildbattle.getCurrentPhase().getName());
+        gameInstance.setCurrentPhase(gameInstance.getPhases().poll());
+        BingoBukkit.getInstance().getLogger().info("Phase en cours : " + gameInstance.getCurrentPhase().getName());
         // Définir le status de la prochaine phase
-        buildbattle.setState(buildbattle.getCurrentPhase().getState());
+        gameInstance.setState(gameInstance.getCurrentPhase().getState());
         // Lancer la Task de la prochaine phase
-        this.startPhase(buildbattle.getCurrentPhase().runnable());
+        this.startPhase(gameInstance.getCurrentPhase().runnable());
     }
 }

@@ -4,6 +4,16 @@ description: A challenge of the association mineow.
 author: Ketsu_sama
 main: be.ketsu.bingo.BingoBukkit
 api-version: 1.17
+libraries:
+  - com.fasterxml.jackson.core:jackson-databind:2.11.1
+  - com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.9.9
+  - com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.11.2
+  - com.fasterxml.jackson.module:jackson-module-parameter-names:2.7.9
+  - org.slf4j:slf4j-api:1.7.30
+  - com.fasterxml.uuid:java-uuid-generator:4.0.1
+  - com.googlecode.json-simple:json-simple:1.1.1
 commands:
   game:
     description: Managing party proceedings
+  bingo:
+    description: Open the bingo card

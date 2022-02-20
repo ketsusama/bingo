@@ -1,8 +1,10 @@
 package be.ketsu.bingo.game.managers;
 
 import be.ketsu.bingo.BingoBukkit;
+import be.ketsu.bingo.game.BingoPlayer;
 import be.ketsu.bingo.game.GameInstance;
 import lombok.Data;
+import lombok.NonNull;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -16,6 +18,7 @@ public class InstancesManager {
 
     private GameInstance currentGameInstance;
 
+
     public InstancesManager() {
         // Setup instance
         gameInstances = new ArrayList<>();
@@ -28,6 +31,8 @@ public class InstancesManager {
      */
     private void createGameInstance() {
         currentGameInstance = new GameInstance();
+        // Add the instance to the list
+        gameInstances.add(currentGameInstance);
     }
 
     /***
@@ -42,8 +47,7 @@ public class InstancesManager {
      * Proceed to the next party instance
      */
     private void nextGameInstance() {
-        if (gameInstances != null && !gameInstances.contains(currentGameInstance)) {
-            gameInstances.add(currentGameInstance);
+        if (gameInstances != null && gameInstances.contains(currentGameInstance)) {
             createGameInstance();
         } else {
             BingoBukkit.getInstance().getLogger().severe("The game instance " + currentGameInstance.getId() + "was already added");
@@ -51,11 +55,29 @@ public class InstancesManager {
     }
 
     /***
-     * Find a player in a game instance
-     * @param player - The player in the game instance
+     * Find the game instance of a player
+     * @param bingoPlayer - The bingo player in the game instance
      * @return - Returns the game instance of player
      */
-    private Optional<GameInstance> findPlayerInstance(Player player) {
-        return Optional.of(gameInstances.stream().filter(gameInstance -> gameInstance.getPlayers().contains(player)).findFirst().get());
+    public Optional<GameInstance> findPlayerGameInstance(@NonNull BingoPlayer bingoPlayer) {
+        return Optional.of(gameInstances.stream().filter(gameInstance -> gameInstance.getPlayers().contains(bingoPlayer)).findFirst().get());
+    }
+
+    /***
+     * Find the player in game instances
+     * @param player - The player to find in game instances
+     * @return - The bingo player
+     */
+    public BingoPlayer findBingoPlayerInGameInstance(@NonNull Player player) {
+        BingoPlayer tempsBingoPlayer = null;
+        for (GameInstance gameInstance : gameInstances) {
+            for (BingoPlayer bingoPlayer : gameInstance.getPlayers()) {
+                if (bingoPlayer.getPlayer().getUniqueId().equals(player.getUniqueId())) {
+                    tempsBingoPlayer = bingoPlayer;
+                    BingoBukkit.getInstance().getLogger().info(tempsBingoPlayer.getPlayer().getName());
+                }
+            }
+        }
+        return tempsBingoPlayer;
     }
 }
