@@ -16,15 +16,14 @@ import static be.ketsu.bingo.utils.TimeUtils.MIN;
 @Data
 public class GameInstance {
 
+    // Managers
+    private final GameManager gameManager;
     // Variables
     @Getter
     UUID id; // The ID of the instance
     @Getter
     List<BingoPlayer> players; // List of players for this instance
     BingoCard bingoCard; // The current card for this instance
-    // Managers
-    private final GameManager gameManager;
-
     // Game settings
     private boolean isReady = false;
     private GameState state = GameState.WAITING;

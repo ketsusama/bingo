@@ -5,6 +5,7 @@ import be.ketsu.bingo.BingoBukkit;
 import be.ketsu.bingo.game.GameInstance;
 import be.ketsu.bingo.game.GameState;
 import be.ketsu.bingo.game.phases.Phase;
+import be.ketsu.bingo.game.tasks.BingoCheckTask;
 import be.ketsu.bingo.listeners.DamagesListeners;
 import be.ketsu.bingo.utils.LocationsUtils;
 import be.ketsu.bingo.utils.TimeUtils;
@@ -29,6 +30,7 @@ public class GamePhase extends Phase {
     @Setter
     private GameInstance game;
     private boolean invisibleSet = false;
+    private boolean checkStarted = false;
 
     public GamePhase(GameInstance gameInstance, int defaultTime) {
         this.name = "The games state";
@@ -42,12 +44,19 @@ public class GamePhase extends Phase {
     @Override
     public BukkitRunnable runnable() {
         if (Objects.isNull(this.bcTime))
-            this.bcTime = addTimeEach(new int[]{time - MIN, time - 2 * MIN, time - 3 * MIN, time - 4 * MIN, time - 5 * MIN}, MIN);
+            this.bcTime = addTimeEach(new int[]{time - MIN, time - 2 * MIN, time - 3 * MIN, time - 4 * MIN, time - (4 * MIN + MIN / 2)}, MIN);
         if (Objects.isNull(this.titleTime))
             this.titleTime = new int[]{time - 1, time - 2, time - 3, time - 4, time - 5};
         return new BukkitRunnable() {
             @Override
             public void run() {
+
+                // Launch check tasks
+                if (!checkStarted) {
+                    BingoBukkit.getInstance().getExecutionManager().getTasks().put(gameInstance.getId() + "-checkbingo", new BingoCheckTask(gameInstance).runTaskTimer(BingoBukkit.getInstance(), 0L, 20L * 2));
+                    checkStarted = true;
+                }
+
                 // Set player invisible for 10 seconds
                 if (!invisibleSet) {
                     getGameInstance().getPlayers().forEach(bingoPlayer -> DamagesListeners.invisible.add(bingoPlayer.getPlayer()));
@@ -67,8 +76,10 @@ public class GamePhase extends Phase {
                         @Override
                         public void run() {
                             getGameInstance().getPlayers().forEach(bingoPlayer -> {
-                                // Set gamemode survival
+                                // Set game mode survival
                                 bingoPlayer.getPlayer().setGameMode(SURVIVAL);
+                                // Clean inventory
+                                bingoPlayer.getPlayer().getInventory().clear();
                                 // Teleport player around a circle pattern
                                 bingoPlayer.getPlayer().teleport(LocationsUtils.getSafeLocation(new Location(BingoBukkit.getInstance().getServer().getWorld("world"), 0, 0, 0)));
 

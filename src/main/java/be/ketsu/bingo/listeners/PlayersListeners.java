@@ -4,6 +4,7 @@ import be.ketsu.bingo.BingoBukkit;
 import be.ketsu.bingo.game.BingoPlayer;
 import be.ketsu.bingo.game.GameInstance;
 import be.ketsu.bingo.utils.LocationsUtils;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,6 +20,12 @@ public class PlayersListeners implements Listener {
     private void OnPlayerJoin(PlayerJoinEvent event) {
         // Remove base message
         event.setJoinMessage("");
+
+        // Set gamemode creative to prevent damage
+        event.getPlayer().setGameMode(GameMode.CREATIVE);
+
+        // Clear Player
+        event.getPlayer().getInventory().clear();
 
         // Join the current bingo
         BingoBukkit.getInstance().getBingoManager().joinBingo(event.getPlayer());

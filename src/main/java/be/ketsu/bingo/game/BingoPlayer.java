@@ -12,9 +12,11 @@ public class BingoPlayer {
 
     private Player player;
     private Map<Material, Boolean> hasMaterial;
+    private Integer foundLines;
 
     public BingoPlayer(Player player) {
         this.player = player;
         hasMaterial = new HashMap<>();
+        foundLines = 0;
     }
 }

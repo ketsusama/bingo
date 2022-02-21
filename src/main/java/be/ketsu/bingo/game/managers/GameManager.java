@@ -11,6 +11,7 @@ import lombok.val;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -88,7 +89,7 @@ public class GameManager {
         // Cut the current phase
         this.cancelPhase();
         // Temps list players
-        List<BingoPlayer> bingoPlayers = gameInstance.getPlayers();
+        List<BingoPlayer> bingoPlayers = new ArrayList<>(gameInstance.getPlayers());
         // Delete this game instance
         BingoBukkit.getInstance().getInstancesManager().getGameInstances().remove(getGameInstance());
         // Put players to current game

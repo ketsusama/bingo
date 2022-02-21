@@ -32,9 +32,12 @@ public class GameCommand implements CommandExecutor {
                 argLength0(player);
                 break;
             case "start":
+                // Get current game instance
+                GameInstance currentGameInstance = BingoBukkit.getInstance().getInstancesManager().getCurrentGameInstance();
                 // Force the game instance to start
-                if (BingoBukkit.getInstance().getInstancesManager().getCurrentGameInstance().getState() == GameState.WAITING) {
-                    BingoBukkit.getInstance().getInstancesManager().getCurrentGameInstance().setReady(true);
+                if (currentGameInstance.getState() == GameState.WAITING) {
+                    currentGameInstance.setReady(true);
+                    currentGameInstance.getGameManager().checkStart();
                 }
                 break;
             case "stop":
@@ -90,7 +93,7 @@ public class GameCommand implements CommandExecutor {
                 }
 
                 if (!ret) {
-                    player.sendMessage(BingoBukkit.getInstance().getMessages().getPrefix() + BingoBukkit.getInstance().getMessages().getCommand().getBadSyntaxe());
+                    player.sendMessage(BingoBukkit.getInstance().getMessages().getCommand().getBadSyntaxe().replace("%prefix%", BingoBukkit.getInstance().getMessages().getPrefix()));
                 }
 
                 return ret;
@@ -98,7 +101,7 @@ public class GameCommand implements CommandExecutor {
 
             }
 
-            sender.sendMessage(BingoBukkit.getInstance().getMessages().getPrefix() + BingoBukkit.getInstance().getMessages().getCommand().getMustBePlayer());
+            sender.sendMessage(BingoBukkit.getInstance().getMessages().getCommand().getMustBePlayer().replace("%prefix%", BingoBukkit.getInstance().getMessages().getPrefix()));
             return true;
         }
         return false;

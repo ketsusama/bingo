@@ -1,7 +1,6 @@
 package be.ketsu.bingo.commands;
 
 import be.ketsu.bingo.BingoBukkit;
-import be.ketsu.bingo.game.BingoPlayer;
 import be.ketsu.bingo.gui.types.BingoInventory;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

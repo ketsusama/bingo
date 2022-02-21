@@ -4,10 +4,9 @@
 
 ## Description
 
-On Minecraft, the goal of Bingo is to be the first to retrieve a number of items from a given array of items
-at the beginning of the game to each of the players. The game takes place in survival and the players generally share the same
+On Minecraft, the goal of Bingo is to be the first to retrieve a number of items from a given array of items at the
+beginning of the game to each of the players. The game takes place in survival and the players generally share the same
 card without PvP.
-
 
 ### Permissions
 
@@ -21,7 +20,6 @@ card without PvP.
 |:---------------------------|:-----------------------------------------|:-----------------------------------------------------------------------------|
 | `/game start`              | Force the launch of the current instance | -                                                                            |
 | `/game stop <instance_id>` | Stop the current the instance by index   | `instance_id` : The instance index in the list                                            |
-
 
 ## Dépendances
 

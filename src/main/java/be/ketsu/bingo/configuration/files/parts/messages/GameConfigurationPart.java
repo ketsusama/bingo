@@ -11,9 +11,9 @@ public class GameConfigurationPart {
     String noEnoughPlayer = "%prefix% §cThere is not enough player to start the game!";
     String startInTitle = "§ebeginning in";
     String startInSubTitle = "§6%time% §eseconds";
-    String gameBeginningIn = "%prefix% §eThe game starts in  %time%";
+    String gameBeginningIn = "%prefix% §eThe game starts in %time%";
     String gameStarting = "%prefix% §eThe game begins! Good luck!";
-    String remainingGames = "%prefix% §a %time% §fof remaining games !";
+    String remainingGames = "%prefix% §a%time% §fof remaining games !";
     String remainingTime = "§aTime's remaining";
     String gameCancel = "%prefix% §eThe game has been canceled";
 

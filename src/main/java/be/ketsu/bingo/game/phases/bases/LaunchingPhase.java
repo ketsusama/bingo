@@ -2,7 +2,6 @@ package be.ketsu.bingo.game.phases.bases;
 
 
 import be.ketsu.bingo.BingoBukkit;
-import be.ketsu.bingo.game.BingoPlayer;
 import be.ketsu.bingo.game.GameInstance;
 import be.ketsu.bingo.game.GameState;
 import be.ketsu.bingo.game.phases.Phase;
@@ -28,19 +27,16 @@ public class LaunchingPhase extends Phase {
         return new BukkitRunnable() {
             @Override
             public void run() {
-                // Check if the game is ready to start
-                if (!getGameInstance().isReady()) {
-                    return;
-                }
                 // Start the clock (Title + Level)
-                for (final BingoPlayer bingoPlayer : getGameInstance().getPlayers()) {
+                // TODO Check NMS for title
+                /*for (final BingoPlayer bingoPlayer : getGameInstance().getPlayers()) {
                     bingoPlayer.getPlayer().setLevel(time);
                     if (time == 5) {
-                        //TODO Check nms for title
                         //new Title(BingoBukkit.getInstance().getMessages().getGame().getStartInTitle(), BingoBukkit.getInstance().getMessages().getGame().getStartInSubTitle().replace("%time%", String.valueOf(time)), 20, 10, 20).send(player);
                         bingoPlayer.getPlayer().sendMessage(BingoBukkit.getInstance().getMessages().getGame().getStartInTitle() + BingoBukkit.getInstance().getMessages().getGame().getStartInSubTitle().replace("%time%", String.valueOf(time)));
                     }
                 }
+                 */
                 // Counting the time in the chat
                 if (time == 5 || time == 4 || time == 3 || time == 2 || time == 1) {
                     getGameInstance().getPlayers().forEach(bingoPlayer -> bingoPlayer.getPlayer().sendMessage(BingoBukkit.getInstance().getMessages().getGame().getGameBeginningIn().replace("%prefix%", BingoBukkit.getInstance().getMessages().getPrefix()).replace("%time%", TimeUtils.getDurationString(time))));

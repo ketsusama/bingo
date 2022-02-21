@@ -2,17 +2,18 @@ package be.ketsu.bingo.gui.types;
 
 import be.ketsu.bingo.BingoBukkit;
 import be.ketsu.bingo.game.BingoPlayer;
+import be.ketsu.bingo.game.GameInstance;
 import be.ketsu.bingo.gui.ClickableItem;
 import be.ketsu.bingo.gui.SmartInventory;
 import be.ketsu.bingo.gui.content.InventoryContents;
 import be.ketsu.bingo.gui.content.InventoryProvider;
 import be.ketsu.bingo.gui.content.SlotPos;
+import be.ketsu.bingo.utils.ItemBuilder;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class BingoInventory implements InventoryProvider {
@@ -31,15 +32,17 @@ public class BingoInventory implements InventoryProvider {
     public void init(Player player, InventoryContents contents) {
         // Find the bingo player
         BingoPlayer bingoPlayer = BingoBukkit.getInstance().getInstancesManager().findBingoPlayerInGameInstance(player);
+        // Find the player game instance
+        GameInstance instance = BingoBukkit.getInstance().getInstancesManager().findPlayerGameInstance(bingoPlayer).get();
         // Find the bingo player cards
-        Map<Material, Boolean> materials = bingoPlayer.getHasMaterial();
+        ItemStack[][] itemStacks = instance.getBingoCard().getBingoItems();
 
         // Set the card items in inventory
         AtomicInteger count = new AtomicInteger();
         for (int row = 0; row < maxRows; row++)
             for (int column = 2; column < maxColumn + 2; column++) {
-                Material material = (Material) materials.keySet().toArray()[count.getAndIncrement()];
-                contents.set(SlotPos.of(row, column), ClickableItem.empty(new ItemStack(material)));
+                Material material = itemStacks[row][column - 2].getType();
+                contents.set(SlotPos.of(row, column), ClickableItem.empty(bingoPlayer.getHasMaterial().get(material) ? new ItemBuilder(material).addGLow().build() : new ItemBuilder(material).build()));
             }
     }
 

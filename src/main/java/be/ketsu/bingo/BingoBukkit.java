@@ -2,18 +2,19 @@ package be.ketsu.bingo;
 
 import be.ketsu.bingo.commands.BingoCommand;
 import be.ketsu.bingo.commands.GameCommand;
+import be.ketsu.bingo.configuration.Configurations;
 import be.ketsu.bingo.configuration.files.MessageConfiguration;
 import be.ketsu.bingo.configuration.files.SettingsConfiguration;
 import be.ketsu.bingo.game.managers.BingoManager;
 import be.ketsu.bingo.game.managers.InstancesManager;
 import be.ketsu.bingo.gui.InventoryManager;
+import be.ketsu.bingo.listeners.BlockListeners;
+import be.ketsu.bingo.listeners.DamagesListeners;
 import be.ketsu.bingo.listeners.PlayersListeners;
 import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Logger;
-
-import static be.ketsu.bingo.configuration.Configurations.*;
 
 public class BingoBukkit extends JavaPlugin {
 
@@ -45,8 +46,8 @@ public class BingoBukkit extends JavaPlugin {
         instance = this;
 
         // Read or create configurations
-        messages = readOrCreateConfiguration(this, MessageConfiguration.class);
-        settings = readOrCreateConfiguration(this, SettingsConfiguration.class);
+        messages = Configurations.readOrCreateConfiguration(this, MessageConfiguration.class);
+        settings = Configurations.readOrCreateConfiguration(this, SettingsConfiguration.class);
 
         // Managers
         executionManager = new ExecutionManager();
@@ -60,6 +61,8 @@ public class BingoBukkit extends JavaPlugin {
 
         // Register Listeners
         this.getServer().getPluginManager().registerEvents(new PlayersListeners(), this);
+        this.getServer().getPluginManager().registerEvents(new DamagesListeners(), this);
+        this.getServer().getPluginManager().registerEvents(new BlockListeners(), this);
 
         // Register Commands
         getCommand("game").setExecutor(new GameCommand());

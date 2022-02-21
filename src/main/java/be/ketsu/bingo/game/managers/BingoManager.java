@@ -13,8 +13,8 @@ import java.util.stream.IntStream;
 
 public class BingoManager {
 
+    public Integer totalItems = 25;
     List<Material> materials;
-    Integer totalItems = 25;
 
     public BingoManager() {
         // Cache all minecraft materials
@@ -33,8 +33,9 @@ public class BingoManager {
         Random rand = new Random();
         // The items list to put in bingo cards
         List<ItemStack> itemStacks = IntStream.range(0, totalItems).mapToObj(i -> new ItemStack(materials.get(i))).toList();
-        return new BingoCard(itemStacks.toArray(ItemStack[]::new));
+        return new BingoCard(itemStacks);
     }
+
 
     /***
      * Join the current bingo
@@ -46,7 +47,7 @@ public class BingoManager {
         // Create a new bingo player
         BingoPlayer bingoPlayer = new BingoPlayer(player);
         // Get the bingo card from the current instance
-        ItemStack[] itemStacks = currentGameInstance.getBingoCard().items();
+        List<ItemStack> itemStacks = currentGameInstance.getBingoCard().getItems();
 
         // Convert the bingo card
         Map<Material, Boolean> tempsMap = new HashMap<>();
