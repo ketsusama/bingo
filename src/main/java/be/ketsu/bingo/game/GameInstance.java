@@ -16,29 +16,32 @@ import static be.ketsu.bingo.utils.TimeUtils.MIN;
 @Data
 public class GameInstance {
 
-    // Managers
-    private final GameManager gameManager;
     // Variables
     @Getter
-    UUID id; // The ID of the instance
+    String id; // The ID of the instance
     @Getter
     List<BingoPlayer> players; // List of players for this instance
     BingoCard bingoCard; // The current card for this instance
     // Game settings
-    private boolean isReady = false;
-    private GameState state = GameState.WAITING;
-    private Deque<Phase> phases = new ArrayDeque<>();
-    private Phase currentPhase;
+    private boolean isReady = false; // Indicates if the game has been forced
+    private GameState state = GameState.WAITING; // The default state
+    private Deque<Phase> phases = new ArrayDeque<>(); // The list of phases
+    private Phase currentPhase; // Current phase
 
+    // Managers
+    private final GameManager gameManager;
 
     public GameInstance() {
         // Set up the instance
-        id = UUID.randomUUID();
+        // Generate a human-readable uuid
+        id = UUID.randomUUID().toString().replace(" ", "").substring(0, 8);
         players = new ArrayList<>();
         bingoCard = BingoBukkit.getInstance().getBingoManager().generateBingoCard();
 
+        // Setup managers
         gameManager = new GameManager(this);
 
+        // Setup phases
         phases.add(new LaunchingPhase(this, 5));
         phases.add(new GamePhase(this, 5 * MIN));
         phases.add(new EndPhase(this));

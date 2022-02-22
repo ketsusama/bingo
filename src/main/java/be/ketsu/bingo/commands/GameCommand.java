@@ -63,7 +63,8 @@ public class GameCommand implements CommandExecutor {
         args1 = args1.toLowerCase();
         if ("stop".equals(args1)) {
             // Get the instance
-            GameInstance gameInstance = BingoBukkit.getInstance().getInstancesManager().getGameInstances().get(Integer.parseInt(args2));
+            GameInstance gameInstance = BingoBukkit.getInstance().getInstancesManager().getGameInstances().stream()
+                .filter(findInstance -> args2.equals(findInstance.getId())).findAny().orElse(null);
             // End the party
             gameInstance.getGameManager().endGame();
             // Remove the instance from the list

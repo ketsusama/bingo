@@ -25,8 +25,11 @@ public class BingoInventory implements InventoryProvider {
         .title(ChatColor.YELLOW + "My Bingo card")
         .build();
 
-    Integer maxRows = 5;
-    Integer maxColumn = 5;
+
+    protected static final ClickableItem blackGlasses = ClickableItem.empty(new ItemBuilder(new ItemStack(Material.BLACK_STAINED_GLASS_PANE)).setName("§a").build());
+    protected static final ClickableItem grayGlasses = ClickableItem.empty(new ItemBuilder(new ItemStack(Material.GRAY_STAINED_GLASS_PANE)).setName("§a").build());
+    protected static final Integer maxRows = 5;
+    protected static final Integer maxColumn = 5;
 
     @Override
     public void init(Player player, InventoryContents contents) {
@@ -44,6 +47,14 @@ public class BingoInventory implements InventoryProvider {
                 Material material = itemStacks[row][column - 2].getType();
                 contents.set(SlotPos.of(row, column), ClickableItem.empty(bingoPlayer.getHasMaterial().get(material) ? new ItemBuilder(material).addGLow().build() : new ItemBuilder(material).build()));
             }
+
+        // Fill some glasses for a little design :o
+        // Left side
+        contents.fillColumn(0, blackGlasses);
+        contents.fillColumn(1, grayGlasses);
+        // Right side
+        contents.fillColumn(7, grayGlasses);
+        contents.fillColumn(8, blackGlasses);
     }
 
     @Override

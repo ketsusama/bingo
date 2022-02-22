@@ -24,13 +24,14 @@ public class LocationsUtils {
         double x = radius * Math.cos(angle);
         double z = radius * Math.sin(angle);
         Location location = centre.clone().add(new Vector(x, 0, z));
-        location.setY(location.getWorld().getHighestBlockYAt(location.getBlockX(), location.getBlockY()) + 1);
+        // Fix bugged location with 1 more block in Y
+        location.setY(location.getWorld().getHighestBlockYAt(location.getBlockX(), location.getBlockZ()) + 1);
         return location;
     }
 
     /***
      * Check if location is safe
-     * @param location
+     * @param location - Location to check
      * @return
      */
     public boolean isSafeLocation(Location location) {
@@ -39,7 +40,7 @@ public class LocationsUtils {
 
     /***
      * Get a safe location on a radius
-     * @param location
+     * @param location - Location to check
      * @return
      */
     public Location getSafeLocation(Location location) {

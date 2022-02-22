@@ -13,13 +13,12 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
+import xyz.tozymc.spigot.api.title.TitleApi;
 
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.IntStream;
 
-import static be.ketsu.bingo.utils.TimeUtils.MIN;
 import static org.bukkit.GameMode.SURVIVAL;
 
 public class GamePhase extends Phase {
@@ -44,9 +43,9 @@ public class GamePhase extends Phase {
     @Override
     public BukkitRunnable runnable() {
         if (Objects.isNull(this.bcTime))
-            this.bcTime = addTimeEach(new int[]{time - MIN, time - 2 * MIN, time - 3 * MIN, time - 4 * MIN, time - (4 * MIN + MIN / 2)}, MIN);
+            this.bcTime = new int[]{time - TimeUtils.MIN, time - 2 * TimeUtils.MIN, time - 3 * TimeUtils.MIN, time - 4 * TimeUtils.MIN};
         if (Objects.isNull(this.titleTime))
-            this.titleTime = new int[]{time - 1, time - 2, time - 3, time - 4, time - 5};
+            this.titleTime = new int[]{time - TimeUtils.MIN, time - 2 * TimeUtils.MIN, time - 3 * TimeUtils.MIN, time - 4 * TimeUtils.MIN};
         return new BukkitRunnable() {
             @Override
             public void run() {
@@ -89,38 +88,21 @@ public class GamePhase extends Phase {
                 }
                 // Log the game minutes in console
                 if (currentTime % 60 == 0)
-                    BingoBukkit.getInstance().getLogger().info(getGameInstance().getId() + " " + currentTime / 60 + " minutes de jeux");
+                    BingoBukkit.getInstance().getLogger().info(getGameInstance().getId() + " " + currentTime / 60 + " minutes of games");
 
                 // All the X times send a broadcast for the remaining game time
                 Arrays.stream(bcTime).filter(i -> i == currentTime).forEach(i -> getGameInstance().getPlayers().forEach(bingoPlayer -> bingoPlayer.getPlayer().sendMessage(BingoBukkit.getInstance().getMessages().getGame().getRemainingGames().replace("%prefix%", BingoBukkit.getInstance().getMessages().getPrefix()).replace("%time%", TimeUtils.getDurationString(time - currentTime)))));
 
                 // Every X time sent a title for the last remaining minute
-                /*
                 Arrays.stream(titleTime).filter(i -> i == currentTime).forEach(i -> getGameInstance().getPlayers().forEach(bingoPlayer -> {
-                    // TODO Rework nms
-                    //new Title(BingoBukkit.getInstance().getMessages().getGame().getRemainingTime(), TimeUtils.getDurationString(time - currentTime), 20, 5, 20).send(p);
-                    bingoPlayer.getPlayer().sendMessage(BingoBukkit.getInstance().getMessages().getGame().getRemainingTime(), TimeUtils.getDurationString(time - currentTime));
+                    TitleApi.sendTitle(bingoPlayer.getPlayer(), BingoBukkit.getInstance().getMessages().getGame().getRemainingTime(), TimeUtils.getDurationString(time - currentTime), 20, 20, 20);
                 }));
-                 */
 
                 // Proceed to next step if time is up
                 if (currentTime >= time) getGameInstance().getGameManager().nextPhase();
 
                 ++currentTime;
             }
-        }
-
-            ;
-    }
-
-    protected int[] addTimeEach(int[] array, int seconds) {
-        int[] newArray = new int[(int) (array.length + Math.floor(time / seconds) - 1)];
-
-        IntStream.range(0, array.length).forEach(i -> newArray[i] = array[i]);
-
-        for (int i = 1; i < time / seconds; i++)
-            newArray[array.length + i - 1] = seconds * i;
-
-        return newArray;
+        };
     }
 }

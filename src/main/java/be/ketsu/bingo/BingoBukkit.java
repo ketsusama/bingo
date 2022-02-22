@@ -2,6 +2,7 @@ package be.ketsu.bingo;
 
 import be.ketsu.bingo.commands.BingoCommand;
 import be.ketsu.bingo.commands.GameCommand;
+import be.ketsu.bingo.commands.tab.GameTabCompleter;
 import be.ketsu.bingo.configuration.Configurations;
 import be.ketsu.bingo.configuration.files.MessageConfiguration;
 import be.ketsu.bingo.configuration.files.SettingsConfiguration;
@@ -67,6 +68,9 @@ public class BingoBukkit extends JavaPlugin {
         // Register Commands
         getCommand("game").setExecutor(new GameCommand());
         getCommand("bingo").setExecutor(new BingoCommand());
+
+        // Register Tab Completer
+        getCommand("game").setTabCompleter(new GameTabCompleter());
     }
 
     @Override

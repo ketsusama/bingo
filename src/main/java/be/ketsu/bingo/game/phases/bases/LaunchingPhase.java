@@ -2,12 +2,14 @@ package be.ketsu.bingo.game.phases.bases;
 
 
 import be.ketsu.bingo.BingoBukkit;
+import be.ketsu.bingo.game.BingoPlayer;
 import be.ketsu.bingo.game.GameInstance;
 import be.ketsu.bingo.game.GameState;
 import be.ketsu.bingo.game.phases.Phase;
 import be.ketsu.bingo.utils.TimeUtils;
 import org.bukkit.Sound;
 import org.bukkit.scheduler.BukkitRunnable;
+import xyz.tozymc.spigot.api.title.TitleApi;
 
 import java.util.concurrent.TimeUnit;
 
@@ -28,15 +30,12 @@ public class LaunchingPhase extends Phase {
             @Override
             public void run() {
                 // Start the clock (Title + Level)
-                // TODO Check NMS for title
-                /*for (final BingoPlayer bingoPlayer : getGameInstance().getPlayers()) {
+                for (final BingoPlayer bingoPlayer : getGameInstance().getPlayers()) {
                     bingoPlayer.getPlayer().setLevel(time);
-                    if (time == 5) {
-                        //new Title(BingoBukkit.getInstance().getMessages().getGame().getStartInTitle(), BingoBukkit.getInstance().getMessages().getGame().getStartInSubTitle().replace("%time%", String.valueOf(time)), 20, 10, 20).send(player);
-                        bingoPlayer.getPlayer().sendMessage(BingoBukkit.getInstance().getMessages().getGame().getStartInTitle() + BingoBukkit.getInstance().getMessages().getGame().getStartInSubTitle().replace("%time%", String.valueOf(time)));
+                    if (time == 5 || time == 4 || time == 3 || time == 2 || time == 1) {
+                        TitleApi.sendTitle(bingoPlayer.getPlayer(), BingoBukkit.getInstance().getMessages().getGame().getStartInTitle(), BingoBukkit.getInstance().getMessages().getGame().getStartInSubTitle().replace("%time%", String.valueOf(time)), 20, 20, 20);
                     }
                 }
-                 */
                 // Counting the time in the chat
                 if (time == 5 || time == 4 || time == 3 || time == 2 || time == 1) {
                     getGameInstance().getPlayers().forEach(bingoPlayer -> bingoPlayer.getPlayer().sendMessage(BingoBukkit.getInstance().getMessages().getGame().getGameBeginningIn().replace("%prefix%", BingoBukkit.getInstance().getMessages().getPrefix()).replace("%time%", TimeUtils.getDurationString(time))));

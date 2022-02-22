@@ -26,7 +26,6 @@ public class ExecutionManager {
      */
     public void start() {
         // Each tick updating
-        // Nothing to add here yet
         // Activate ExecutionManager
         active = true;
     }

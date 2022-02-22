@@ -1,6 +1,9 @@
 package be.ketsu.bingo.commands;
 
 import be.ketsu.bingo.BingoBukkit;
+import be.ketsu.bingo.game.BingoPlayer;
+import be.ketsu.bingo.game.GameInstance;
+import be.ketsu.bingo.game.GameState;
 import be.ketsu.bingo.gui.types.BingoInventory;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -10,7 +13,13 @@ import org.bukkit.entity.Player;
 public class BingoCommand implements CommandExecutor {
 
     public static boolean argLength0(Player player) {
-        BingoInventory.INVENTORY.open(player);
+        BingoPlayer bingoPlayer = BingoBukkit.getInstance().getInstancesManager().findBingoPlayerInGameInstance(player);
+        GameInstance gameInstance = BingoBukkit.getInstance().getInstancesManager().findPlayerGameInstance(bingoPlayer).get();
+        if (gameInstance.getState() == GameState.IN_GAME) {
+            BingoInventory.INVENTORY.open(player);
+        } else {
+            player.sendMessage(BingoBukkit.getInstance().getMessages().getCommand().getYouAreNotInGame());
+        }
         return true;
     }
 

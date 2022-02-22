@@ -9,7 +9,7 @@ public class GameConfigurationPart {
      * Generic game configuration
      */
     String noEnoughPlayer = "%prefix% §cThere is not enough player to start the game!";
-    String startInTitle = "§ebeginning in";
+    String startInTitle = "§eBeginning in";
     String startInSubTitle = "§6%time% §eseconds";
     String gameBeginningIn = "%prefix% §eThe game starts in %time%";
     String gameStarting = "%prefix% §eThe game begins! Good luck!";

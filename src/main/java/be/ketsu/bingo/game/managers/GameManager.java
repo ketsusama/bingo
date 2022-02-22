@@ -76,8 +76,6 @@ public class GameManager {
     public void cancelGame() {
         // Stop the current phase if not already done
         this.cancelPhase();
-        // On stopper toutes les task
-        //BingoBukkit.getInstance().getExecutionManager().cancelAllTasks();
     }
 
     /***
@@ -129,7 +127,7 @@ public class GameManager {
         val gameInstance = this.gameInstance;
         // Get & Poll la prochaine phase
         gameInstance.setCurrentPhase(gameInstance.getPhases().poll());
-        BingoBukkit.getInstance().getLogger().info("Phase en cours : " + gameInstance.getCurrentPhase().getName());
+        BingoBukkit.getInstance().getLogger().info("Phase running : " + gameInstance.getCurrentPhase().getName());
         // Définir le status de la prochaine phase
         gameInstance.setState(gameInstance.getCurrentPhase().getState());
         // Lancer la Task de la prochaine phase

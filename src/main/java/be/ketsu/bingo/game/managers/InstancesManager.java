@@ -74,7 +74,6 @@ public class InstancesManager {
             for (BingoPlayer bingoPlayer : gameInstance.getPlayers()) {
                 if (bingoPlayer.getPlayer().getUniqueId().equals(player.getUniqueId())) {
                     tempsBingoPlayer = bingoPlayer;
-                    BingoBukkit.getInstance().getLogger().info(tempsBingoPlayer.getPlayer().getName());
                 }
             }
         }
