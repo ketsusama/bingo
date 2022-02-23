@@ -37,6 +37,12 @@ public class DamagesListeners implements Listener {
 
     @EventHandler
     private void onEntityDamage(EntityDamageByEntityEvent event) {
+        if (event.getEntity() instanceof Player player) {
+            // Cancel damage for invisible entity
+            if (invisible.contains(event.getEntity())) {
+                event.setCancelled(true);
+            }
+        }
         if (event.getDamager() instanceof Player player) {
             // Prevent player from damage entity
             if (((Player) event.getDamager()).getGameMode() == GameMode.CREATIVE) {

@@ -21,7 +21,7 @@ public class PlayersListeners implements Listener {
         // Remove base message
         event.setJoinMessage("");
 
-        // Set gamemode creative to prevent damage
+        // Set game mode creative to prevent damage
         event.getPlayer().setGameMode(GameMode.CREATIVE);
 
         // Clear Player

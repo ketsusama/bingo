@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 public @interface Configuration {
 
     /**
-     * @return Le nom du fichier généré, si le String est vide,
+     * @return The name of the generated file, if the string is empty,
      */
     String value() default "";
 

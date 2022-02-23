@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class GameTabCompleter implements TabCompleter {
+
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (args.length == 1) {

@@ -12,6 +12,11 @@ import org.bukkit.entity.Player;
 
 public class BingoCommand implements CommandExecutor {
 
+    /***
+     * Command with no args
+     * @param player - The sender of the command
+     * @return
+     */
     public static boolean argLength0(Player player) {
         BingoPlayer bingoPlayer = BingoBukkit.getInstance().getInstancesManager().findBingoPlayerInGameInstance(player);
         GameInstance gameInstance = BingoBukkit.getInstance().getInstancesManager().findPlayerGameInstance(bingoPlayer).get();

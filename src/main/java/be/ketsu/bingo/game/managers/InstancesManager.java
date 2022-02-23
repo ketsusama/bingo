@@ -14,9 +14,9 @@ import java.util.Optional;
 @Data
 public class InstancesManager {
 
-    private List<GameInstance> gameInstances;
+    private List<GameInstance> gameInstances; // List of instances
 
-    private GameInstance currentGameInstance;
+    private GameInstance currentGameInstance; // Current instance
 
 
     public InstancesManager() {

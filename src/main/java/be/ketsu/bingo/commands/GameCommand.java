@@ -14,7 +14,11 @@ import java.util.List;
 
 public class GameCommand implements CommandExecutor {
 
-
+    /***
+     * Command with no args
+     * @param player - The sender of the command
+     * @return
+     */
     public static boolean argLength0(Player player) {
         List<String> commandList = new ArrayList<>(BingoBukkit.getInstance().getMessages().getCommand().getGameInfoList());
         for (String s : commandList) {
@@ -23,6 +27,12 @@ public class GameCommand implements CommandExecutor {
         return true;
     }
 
+    /***
+     * Command with one args
+     * @param player - The sender of the command
+     * @param args1 - The first argument
+     * @return
+     */
     public boolean argLength1(Player player, String args1) {
         args1 = args1.toLowerCase();
         switch (args1) {
@@ -59,6 +69,13 @@ public class GameCommand implements CommandExecutor {
         return true;
     }
 
+    /***
+     * Command with two args
+     * @param player - The sender of the command
+     * @param args1 - The first argument
+     * @param args2 - The second argument
+     * @return
+     */
     public boolean argLength2(Player player, String args1, String args2) {
         args1 = args1.toLowerCase();
         if ("stop".equals(args1)) {

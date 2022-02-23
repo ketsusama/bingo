@@ -11,8 +11,8 @@ import java.util.Map;
 public class BingoPlayer {
 
     private Player player;
-    private Map<Material, Boolean> hasMaterial;
-    private Integer foundLines;
+    private Map<Material, Boolean> hasMaterial; // Lists the items the player found
+    private Integer foundLines; // The lines the player found
 
     public BingoPlayer(Player player) {
         this.player = player;

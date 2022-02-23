@@ -27,8 +27,7 @@ public final class BingoCard {
 
     /***
      * Represents a bingo card
-     *
-     * @param itemStacks
+     * @param itemStacks - The items generated
      */
     public BingoCard(List<ItemStack> itemStacks) {
         this.items = itemStacks;
