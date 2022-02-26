@@ -23,6 +23,7 @@ public class DamagesListeners implements Listener {
             if (invisible.contains(player)) {
                 event.setCancelled(true);
             } else {
+                // Prevent damage on waiting state
                 BingoBukkit.getInstance().getInstancesManager().getCurrentGameInstance().getPlayers().forEach(bingoPlayer -> {
                     if (event.getEntity().getUniqueId().equals(bingoPlayer.getPlayer().getUniqueId())) {
                         if (BingoBukkit.getInstance().getInstancesManager().getCurrentGameInstance().getState() == GameState.WAITING) {
@@ -44,7 +45,7 @@ public class DamagesListeners implements Listener {
             }
         }
         if (event.getDamager() instanceof Player player) {
-            // Prevent player from damage entity
+            // Prevent player from damage entity on waiting state
             if (((Player) event.getDamager()).getGameMode() == GameMode.CREATIVE) {
                 event.setCancelled(true);
             }

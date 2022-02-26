@@ -18,7 +18,7 @@ public class GameInstance {
 
     // Variables
     @Getter
-    String id; // The ID of the instance
+    String id; // The identifier of the instance
     @Getter
     List<BingoPlayer> players; // List of players for this instance
     BingoCard bingoCard; // The current card for this instance
@@ -33,7 +33,7 @@ public class GameInstance {
 
     public GameInstance() {
         // Set up the instance
-        // Generate a human-readable uuid
+        // Generate a human-readable instance identifiers
         id = UUID.randomUUID().toString().replace(" ", "").substring(0, 8);
         players = new ArrayList<>();
         bingoCard = BingoBukkit.getInstance().getBingoManager().generateBingoCard();

@@ -20,6 +20,7 @@ public class GameTabCompleter implements TabCompleter {
         if (args.length == 2) {
             if (args[0].equalsIgnoreCase("stop")) {
                 List<String> list = new ArrayList<>();
+                // List all game instances
                 BingoBukkit.getInstance().getInstancesManager().getGameInstances().forEach(gameInstance -> list.add(gameInstance.getId().toString()));
                 return list;
             }

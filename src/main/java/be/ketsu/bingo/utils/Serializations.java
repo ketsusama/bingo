@@ -31,7 +31,7 @@ public class Serializations {
     }
 
     /**
-     * @param serialized The serialize object in its text form
+     * @param serialized The serialized object in its text form
      * @param type       The type of object returned
      * @param <T>        the type
      * @return A new deserialized instance

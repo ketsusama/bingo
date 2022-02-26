@@ -57,16 +57,17 @@ public class GamePhase extends Phase {
                 }
 
                 // Set player invisible for 10 seconds
-                if (!invisibleSet) {
+                if (!invisibleSet && currentTime < 10) {
                     getGameInstance().getPlayers().forEach(bingoPlayer -> DamagesListeners.invisible.add(bingoPlayer.getPlayer()));
                     invisibleSet = true;
                 }
 
                 // Remove invisibility from players
                 if (currentTime >= 11) {
-                    getGameInstance().getPlayers().forEach(bingoPlayer -> {
+                    if (invisibleSet) getGameInstance().getPlayers().forEach(bingoPlayer -> {
                         DamagesListeners.invisible.remove(bingoPlayer.getPlayer());
                     });
+                    invisibleSet = false; // Avoid restarting the loop a second time
                 }
 
                 if (currentTime == 0) {

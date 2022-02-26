@@ -36,7 +36,6 @@ public class BingoCheckTask extends BukkitRunnable {
                         // Send a message to all player's of the instance that the player find an itemstack
                         gameInstance.getPlayers().forEach(playerToBroadCast -> playerToBroadCast.getPlayer().sendMessage(BingoBukkit.getInstance().getMessages().getGame().getPlayerFoundItems().replace("%player%", player.getName()).replace("%item%", itemStack.getType().name())));
                         int lineNumber = gameInstance.getBingoCard().getNumLinesComplete(bingoPlayer);
-                        BingoBukkit.getInstance().getLogger().info("Line number " + lineNumber);
                         if (lineNumber > 0 && lineNumber > bingoPlayer.getFoundLines()) {
                             bingoPlayer.setFoundLines(lineNumber);
                             gameInstance.getPlayers().forEach(playerToBroadCast -> playerToBroadCast.getPlayer().sendMessage(BingoBukkit.getInstance().getMessages().getGame().getPlayerCompletedBingoLine().replace("%player%", player.getName()).replace("%numberCompleted%", String.valueOf(bingoPlayer.getFoundLines())).replace("%numberToComplete%", String.valueOf(BingoBukkit.getInstance().getSettings().getLineToComplete()))));

@@ -1,6 +1,7 @@
 package be.ketsu.bingo.utils;
 
 import be.ketsu.bingo.BingoBukkit;
+import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -15,9 +16,9 @@ public class LocationsUtils {
     /***
      * Get a random location on a circle pattern of location
      * @param centre - Center of location
-     * @return
+     * @return - New location on circle pattern
      */
-    public Location getRandomLocationOnCircles(Location centre) {
+    public Location getRandomLocationOnCircles(@NonNull Location centre) {
         double radius = BingoBukkit.getInstance().getSettings().getSizeOfBeamArea(); // Radius from configuration
         Random rand = new Random();
         double angle = rand.nextFloat() * 2 * Math.PI; //Random angle
@@ -32,18 +33,18 @@ public class LocationsUtils {
     /***
      * Check if location is safe
      * @param location - Location to check
-     * @return
+     * @return - If location is safe
      */
-    public boolean isSafeLocation(Location location) {
+    public boolean isSafeLocation(@NonNull Location location) {
         return location.getBlock().getRelative(BlockFace.DOWN).getType() != Material.LAVA;
     }
 
     /***
      * Get a safe location on a radius
      * @param location - Location to check
-     * @return
+     * @return - A new safe location on a radius
      */
-    public Location getSafeLocation(Location location) {
+    public Location getSafeLocation(@NonNull Location location) {
         Location safeLocation = getRandomLocationOnCircles(location);
         while (!isSafeLocation(location)) {
             safeLocation = getRandomLocationOnCircles(location);

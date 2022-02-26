@@ -21,6 +21,15 @@ card without PvP.
 | `/game start`              | Force the launch of the current instance | -                                                                            |
 | `/game stop <instance_id>` | Stop the current the instance by index   | `instance_id` : The instance index in the list                                            |
 
+## Configurations
+
+**File Settings** \
+playersRequiredToStart : *Number of people required to launch the game* \
+sizeOfBeamArea : *Radius of the teleportation zone* \
+gameGlobalPermission : *Global permissions of the plugin* \
+lineToComplete : *Number of lines to complete to win a game* \
+banItemStack : *List of banned items for bingo card*
+
 ## Dépendances
 
 - [Lombok](https://projectlombok.org/) v1.18.22

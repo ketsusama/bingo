@@ -29,7 +29,6 @@ public class GameManager {
 
     /***
      * Start a game
-     * - Define the party as ready
      * - Run the check task
      */
     public void startGame() {
@@ -112,9 +111,7 @@ public class GameManager {
      * Stop the current phase
      */
     public void cancelPhase() {
-        BingoBukkit.getInstance().getLogger().info("Phase cancel : " + gameInstance.getCurrentPhase().getName());
         if (!this.getCurrentTask().isCancelled()) {
-            System.out.println("Cancel phase task " + getCurrentTask().getTaskId());
             getCurrentTask().cancel();
         }
     }
@@ -127,7 +124,6 @@ public class GameManager {
         val gameInstance = this.gameInstance;
         // Get & Poll la prochaine phase
         gameInstance.setCurrentPhase(gameInstance.getPhases().poll());
-        BingoBukkit.getInstance().getLogger().info("Phase running : " + gameInstance.getCurrentPhase().getName());
         // Définir le status de la prochaine phase
         gameInstance.setState(gameInstance.getCurrentPhase().getState());
         // Lancer la Task de la prochaine phase

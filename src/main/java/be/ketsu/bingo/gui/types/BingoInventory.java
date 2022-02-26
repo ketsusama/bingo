@@ -59,7 +59,7 @@ public class BingoInventory implements InventoryProvider {
 
     @Override
     public void update(Player player, InventoryContents contents) {
-
+        // Nothing to do here
     }
 
 }

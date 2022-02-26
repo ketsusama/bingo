@@ -9,8 +9,8 @@ import java.util.Random;
 
 /***
  *
- * The logic of this class has been taken from the following
- * project main page : https://github.com/Extremelyd1/minecraft-bingo
+ * The logic of this class has been taken from the following project
+ * main page : https://github.com/Extremelyd1/minecraft-bingo
  *
  * Project ressources used:
  * https://github.com/Extremelyd1/minecraft-bingo/blob/master/src/main/java/com/extremelyd1/bingo/BingoCard.java

@@ -29,8 +29,6 @@ public class EndPhase extends Phase {
         return new BukkitRunnable() {
             @Override
             public void run() {
-                // No player was able to win the game in the allotted time so check which one has the most line to complete
-
                 // Cancel BingoCheckTask
                 BingoBukkit.getInstance().getExecutionManager().cancel(gameInstance.getId() + "-checkbingo");
 
@@ -39,7 +37,9 @@ public class EndPhase extends Phase {
                     Player player = bingoPlayer.getPlayer();
                     ladderOf.put(bingoPlayer, gameInstance.getBingoCard().getNumLinesComplete(bingoPlayer));
                 });
+                // Create a temporary map for ladder
                 Map<BingoPlayer, Integer> tempsLadderOf = new HashMap<>();
+
                 // Sort all by number of lines
                 tempsLadderOf = ladderOf.entrySet().stream().sorted(Map.Entry.comparingByValue())
                     .collect(Collectors.toMap(
@@ -49,7 +49,8 @@ public class EndPhase extends Phase {
                         LinkedHashMap::new
                     ));
 
-                Integer maxLine = tempsLadderOf.get(0);
+                // Get the max line value of ladder
+                Integer maxLine = tempsLadderOf.values().stream().findFirst().get();
                 List<BingoPlayer> winners = new ArrayList<>();
 
                 tempsLadderOf.forEach((player, integer) -> {
